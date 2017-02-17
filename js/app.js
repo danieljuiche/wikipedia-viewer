@@ -43,13 +43,14 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.results = [];
 	
 	$scope.search = function () {
-			wikipediaService.getData($scope.searchQuery).then(function (data) {
+		wikipediaService.getData($scope.searchQuery).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				$scope.dataReturned = data;
 
 				// Console data logging
 				console.log(data);
+
 				$scope.results = [];
 				for (var i = 0; i < data.data[1].length; i++) {
 					$scope.results.push({
@@ -59,8 +60,8 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 						url: data.data[3][i]
 					});
 				}
+				// Console logging
 				console.log($scope.results);
-
 			} else {
 				$scope.dataReturned = "Something went wrong!";
 			}
@@ -68,6 +69,9 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 			// Something went wrong
 			console.log(error);
 		});
+	}
+	$scope.inputClear = function () {
+		$scope.searchQuery = '';
 	}
 }]);
 

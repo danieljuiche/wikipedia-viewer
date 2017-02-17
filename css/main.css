@@ -23,7 +23,23 @@ html {
   margin-right: auto; 
 }
 
+.main-header {
+  color: black;
+}
+
 .button-container button {
 	margin-left: 5px;
 	margin-right: 5px;
 }
+
+.search-container .fa-times {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 16px;
+  color: grey;
+}
+
+.search-container .fa-times:hover {
+  cursor: pointer;
+};
