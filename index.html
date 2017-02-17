@@ -8,6 +8,8 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/main.css">
 	<!-- Load AngularJS CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 	<!-- Load AngularJS routing service -->
@@ -16,23 +18,26 @@
 	<script src="https://code.angularjs.org/1.6.1/angular-resource.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<h1 class="text-center">Wikipedia Viewer</h1>
-			<div class="col-md-6 col-md-push-3">
-				<div ng-controller="mainController">
-					<form>
-						<div class="form-group">
-							<input type="text" placeholder="Search.." id="searchField" class="form-control" ng-model="searchQuery">
+	<div class="container outer-container">
+		<div class="row middle-container">
+			<div class="inner-container">
+				<h1 class="text-center">Wikipedia Viewer</h1>
+				<div class="col-md-6 col-md-push-3">
+					<div ng-controller="mainController">
+						<form>
+							<div class="form-group">
+								<input type="text" placeholder="Search.." id="searchField" class="form-control" ng-model="searchQuery">
+							</div>
+							<div class="row text-center">
+								<button type="submit" class="btn btn-primary" ng-click="search()">Search</button>
+								<button type="submit" class="btn btn-default">Random</button>
+							</div>
+						</form>
+						<br>
+						<div class="list-group">
+							<search-results ng-repeat="object in results"></search-results>
 						</div>
-						<div class="row text-center">
-							<button type="submit" class="btn btn-primary" ng-click="search()">Search</button>
-							<button type="submit" class="btn btn-default">Random</button>
-						</div>
-					</form>
-				<br>
-				<div class="list-group">
-					<search-results ng-repeat="object in results"></search-results>
+					</div>
 				</div>
 			</div>
 		</div>
