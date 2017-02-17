@@ -20,17 +20,19 @@
 		<div class="row">
 			<h1 class="text-center">Wikipedia Viewer</h1>
 			<div class="col-md-6 col-md-push-3">
-				<form>
-					<div class="form-group">
-						<input type="text" placeholder="Search.." id="searchField" class="form-control">
-					</div>
-				</form>
-				<div class="row text-center">
-					<button type="submit" class="btn btn-primary">Search</button>
-					<button type="submit" class="btn btn-default">Random</button>
-				</div>
 				<div ng-controller="mainController">
-					{{ dataReturned }}
+					<form>
+						<div class="form-group">
+							<input type="text" placeholder="Search.." id="searchField" class="form-control" ng-model="searchQuery">
+						</div>
+						<div class="row text-center">
+							<button type="submit" class="btn btn-primary" ng-click="search()">Search</button>
+							<button type="submit" class="btn btn-default">Random</button>
+						</div>
+					</form>
+				<br>
+				<div class="list-group">
+					<search-results ng-repeat="object in results"></search-results>
 				</div>
 			</div>
 		</div>
