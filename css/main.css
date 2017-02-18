@@ -42,4 +42,9 @@ html {
 
 .search-container .fa-times:hover {
   cursor: pointer;
-};
+}
+
+.result-counter {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

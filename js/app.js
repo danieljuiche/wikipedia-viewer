@@ -39,20 +39,23 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 
 // Set up main controller
 wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', function ($scope, wikipediaService) {
+	$scope.initialLoad = true;
 	$scope.searchQuery = '';
 	$scope.results = [];
+	$scope.numberOfResults = 0;
 	
 	$scope.search = function () {
 		wikipediaService.getData($scope.searchQuery).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				$scope.dataReturned = data;
+				$scope.numberOfResults = data.data[1].length;
 
 				// Console data logging
 				console.log(data);
 
 				$scope.results = [];
-				for (var i = 0; i < data.data[1].length; i++) {
+				for (var i = 0; i < $scope.numberOfResults; i++) {
 					$scope.results.push({
 						resultID: i,
 						title: data.data[1][i],
