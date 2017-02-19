@@ -39,7 +39,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 
 // Set up main controller
 wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', function ($scope, wikipediaService) {
-	$scope.initialLoad = true;
+	$scope.initialFlag = false;
 	$scope.searchQuery = '';
 	$scope.results = [];
 	$scope.numberOfResults = 0;
@@ -54,7 +54,10 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 				// Console data logging
 				console.log(data);
 
+				// Reset results container
 				$scope.results = [];
+
+				// Re-populate results container
 				for (var i = 0; i < $scope.numberOfResults; i++) {
 					$scope.results.push({
 						resultID: i,
@@ -63,14 +66,23 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 						url: data.data[3][i]
 					});
 				}
+
+				// Set initialFlag to false
+				$scope.initialFlag = true;
+
 				// Console logging
 				console.log($scope.results);
+
 			} else {
+
 				$scope.dataReturned = "Something went wrong!";
+
 			}
 		}, function (error) {
+
 			// Something went wrong
 			console.log(error);
+
 		});
 	}
 	$scope.inputClear = function () {

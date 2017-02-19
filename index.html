@@ -19,12 +19,12 @@
 <body>
 	<div class="background-overlay">
 	</div>
-	<div class="container outer-container">
+	<div class="container outer-container ng-cloak">
 		<div class="row middle-container">
-			<div class="inner-container">
-				<h1 class="text-center main-header">Wikipedia Viewer</h1>
-				<div class="col-md-6 col-md-push-3">
-					<div ng-controller="mainController">
+			<div class="col-md-6 col-md-push-3">
+				<div ng-controller="mainController">
+					<div class="inner-container">
+						<h1 class="text-center main-header" ng-class="{ searchoffset: initialFlag }">Wikipedia Viewer</h1>
 						<form>
 							<div class="form-group search-container">
 								<span class="fa fa-times" ng-click="inputClear()"></span>
@@ -35,7 +35,7 @@
 								<button type="submit" class="btn btn-default">Random &nbsp;<span class="fa fa-random"></span></button>
 							</div>
 						</form>
-						<p class="text-center result-counter" ng-hide="">Now displaying {{ numberOfResults }} results.</p>
+						<p class="text-center result-counter" ng-show="initialFlag">Now displaying {{ numberOfResults }} results.</p>
 						<div class="list-group">
 							<search-results ng-repeat="object in results"></search-results>
 						</div>

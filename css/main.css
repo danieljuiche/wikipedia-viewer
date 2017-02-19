@@ -34,7 +34,7 @@ html {
 
 .search-container .fa-times {
   position: absolute;
-  top: 10px;
+  margin-top: 9px;
   right: 25px;
   font-size: 16px;
   color: grey;
@@ -47,4 +47,8 @@ html {
 .result-counter {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.searchoffset {
+  margin-top: 50px;
 }
