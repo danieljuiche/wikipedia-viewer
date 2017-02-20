@@ -11,7 +11,33 @@ wikipediaApp.config(function ($sceDelegateProvider) {
 // Service
 wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 	var queryUrl = 'http://en.wikipedia.org/w/api.php?';
+  var config = {
+      params: {
+          format: "json",
+          action: "query",
+          prop: "extracts",
+          exchars: "140",
+          exlimit: "10",
+          exintro: "",
+          explaintext: "",
+          rawcontinue: "",
+          generator: "search",
+          gsrlimit: "10",
+          callback: "JSON_CALLBACK"
+      }
+  };
+
 	return {
+		getData: function (queryValue) {
+			config.params.gsrsearch = queryValue;
+			return $http.jsonp(queryUrl, config).then(function (response) {
+				console.log(rq);
+				return response;
+		});
+	}
+}
+
+	/*return {
 		getData: function (queryValue) {
 			return $http.jsonp(queryUrl, {
 				jsonpCallbackParam: 'callback',
@@ -34,7 +60,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 				return $q.reject(response);
 			});
 		}
-	}
+	}*/
 }]);
 
 // Set up main controller
