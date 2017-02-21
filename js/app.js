@@ -13,7 +13,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 	var queryUrl = 'http://en.wikipedia.org/w/api.php?';
 
 	return {
-		getData: function (queryValue) {
+		getData: function (queryValue, queryOffsetValue) {
 			return $http.jsonp(queryUrl, {
 				params: {
 					"action": "query",
@@ -32,7 +32,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 					"gsrsearch": queryValue,
 					"gsrnamespace": "0",
 					"gsrlimit": "10",
-					"gsroffset": "0"
+					"gsroffset": queryOffsetValue
 				}
 			}).then(function (response) {
 				if (typeof response === 'object') {
@@ -56,40 +56,46 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.searchQuery = '';
 	$scope.results = [];
 	$scope.numberOfResults = 0;
+	$scope.searchQueryResults = '';
 	
 	$scope.search = function () {
-		wikipediaService.getData($scope.searchQuery).then(function (data) {
+		wikipediaService.getData($scope.searchQuery,0).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				console.log("API call success!");
-				$scope.dataReturned = data.data.query.pages;
-				$scope.numberOfResults = $scope.dataReturned.length;
+				console.log(data);
 
-				// Console data logging
-				console.log($scope.dataReturned);
+				// At least one page result
+				if (data.data.hasOwnProperty('query')) {
+					$scope.dataReturned = data.data.query.pages;
+					$scope.numberOfResults = $scope.dataReturned.length;
 
-				// Reset results container
-				$scope.results = $scope.dataReturned.map(function (page) {
-					var dataReturned = {
-						"title": page.title,
-						"textExtract": page.extract,
-						"pageUrl": page.fullurl,
-					}
+					// Reset results container
+					$scope.results = $scope.dataReturned.map(function (page) {
+						var dataReturned = {
+							"title": page.title,
+							"textExtract": page.extract,
+							"pageUrl": page.fullurl,
+						}
 
-					if (page.hasOwnProperty('thumbnail')) {
-						dataReturned.imageUrl = page.thumbnail.source;
-					} else {
-						dataReturned.imageUrl = "http://www.freeiconspng.com/uploads/no-image-icon-23.jpg";
-					}
+						if (page.hasOwnProperty('thumbnail')) {
+							dataReturned.imageUrl = page.thumbnail.source;
+						} else {
+							dataReturned.imageUrl = "http://www.freeiconspng.com/uploads/no-image-icon-23.jpg";
+						}
 
-					return dataReturned
-				});
+						return dataReturned
+					});
+
+				} else {
+					$scope.numberOfResults = 0;
+
+				}
 
 				// Set initialFlag to false
 				$scope.initialFlag = true;
-
-				// Console logging
-				console.log($scope.results);
+				// Set correct value for number of query results
+				$scope.searchQueryResults = $scope.searchQuery;
 
 			} else {
 
@@ -104,6 +110,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 		});
 	}
+
 	$scope.inputClear = function () {
 		$scope.searchQuery = '';
 	}

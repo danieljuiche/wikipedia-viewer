@@ -3,8 +3,8 @@
 	
 	<div class="text-container">
 		<h2>{{ object.title }}</h2>
-		<div class="img-container">
-			<img class="img-thumbnail" ng-src="{{ object.imageUrl }}" alt="Description" />
+		<div class="img-container" ng-cloak>
+			<img class="img-thumbnail ng-cloak" ng-src="{{ object.imageUrl }}" />
 		</div>
 		<p>{{ object.textExtract }}</p>
 	</div>
