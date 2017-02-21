@@ -57,9 +57,10 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.results = [];
 	$scope.numberOfResults = 0;
 	$scope.searchQueryResults = '';
-	
+	var currentOffset = 0;
+
 	$scope.search = function () {
-		wikipediaService.getData($scope.searchQuery,0).then(function (data) {
+		wikipediaService.getData($scope.searchQuery, currentOffset).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				console.log("API call success!");
@@ -88,7 +89,9 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 					});
 
 				} else {
+
 					$scope.numberOfResults = 0;
+					$scope.results = 0;
 
 				}
 
@@ -114,6 +117,17 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.inputClear = function () {
 		$scope.searchQuery = '';
 	}
+
+	$scope.increaseOffset = function () {
+		currentOffset += 10;
+		$scope.search();
+	}
+
+	$scope.decreaseOffset = function () {
+		currentOffset -= 10;
+		$scope.search();
+	}
+
 }]);
 
 // Directives
