@@ -11,41 +11,28 @@ wikipediaApp.config(function ($sceDelegateProvider) {
 // Service
 wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 	var queryUrl = 'http://en.wikipedia.org/w/api.php?';
-  var config = {
-      params: {
-          format: "json",
-          action: "query",
-          prop: "extracts",
-          exchars: "140",
-          exlimit: "10",
-          exintro: "",
-          explaintext: "",
-          rawcontinue: "",
-          generator: "search",
-          gsrlimit: "10",
-          callback: "JSON_CALLBACK"
-      }
-  };
 
 	return {
 		getData: function (queryValue) {
-			config.params.gsrsearch = queryValue;
-			return $http.jsonp(queryUrl, config).then(function (response) {
-				console.log(rq);
-				return response;
-		});
-	}
-}
-
-	/*return {
-		getData: function (queryValue) {
 			return $http.jsonp(queryUrl, {
-				jsonpCallbackParam: 'callback',
 				params: {
-					action: 'opensearch',
-					search: queryValue,
-					limit: 10,
-					namespace: 0
+					"action": "query",
+					"format": "json",
+					"prop": "extracts|pageimages|info",
+					"continue": "gsroffset||",
+					"generator": "search",
+					"formatversion": "2",
+					"exsentences": "2",
+					"exlimit": "max",
+					"exintro": 1,
+					"explaintext": 1,
+					"piprop": "original",
+					"pilimit": "max",
+					"inprop": "url",
+					"gsrsearch": queryValue,
+					"gsrnamespace": "0",
+					"gsrlimit": "10",
+					"gsroffset": "0"
 				}
 			}).then(function (response) {
 				if (typeof response === 'object') {
@@ -60,7 +47,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 				return $q.reject(response);
 			});
 		}
-	}*/
+	}
 }]);
 
 // Set up main controller
@@ -74,24 +61,29 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 		wikipediaService.getData($scope.searchQuery).then(function (data) {
 			if (data.status === 200) {
 				// API call success
-				$scope.dataReturned = data;
-				$scope.numberOfResults = data.data[1].length;
+				console.log("API call success!");
+				$scope.dataReturned = data.data.query.pages;
+				$scope.numberOfResults = $scope.dataReturned.length;
 
 				// Console data logging
-				console.log(data);
+				console.log($scope.dataReturned);
 
 				// Reset results container
-				$scope.results = [];
+				$scope.results = $scope.dataReturned.map(function (page) {
+					var dataReturned = {
+						"title": page.title,
+						"textExtract": page.extract,
+						"pageUrl": page.fullurl,
+					}
 
-				// Re-populate results container
-				for (var i = 0; i < $scope.numberOfResults; i++) {
-					$scope.results.push({
-						resultID: i,
-						title: data.data[1][i],
-						description: data.data[2][i],
-						url: data.data[3][i]
-					});
-				}
+					if (page.hasOwnProperty('original')) {
+						dataReturned.imageUrl = page.original.source;
+					} else {
+						dataReturned.imageUrl = "http://www.freeiconspng.com/uploads/no-image-icon-23.jpg";
+					}
+
+					return dataReturned
+				});
 
 				// Set initialFlag to false
 				$scope.initialFlag = true;
@@ -107,6 +99,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 		}, function (error) {
 
 			// Something went wrong
+			console.log("API call failed!");
 			console.log(error);
 
 		});

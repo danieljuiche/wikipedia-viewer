@@ -35,7 +35,7 @@
 								<button type="submit" class="btn btn-default">Random &nbsp;<span class="fa fa-random"></span></button>
 							</div>
 						</form>
-						<p class="text-center result-counter" ng-show="initialFlag">Now displaying {{ numberOfResults }} results.</p>
+						<p class="text-center result-counter" ng-show="initialFlag">Now displaying {{ numberOfResults }} results for {{ searchQuery }}.</p>
 						<div class="list-group">
 							<search-results ng-repeat="object in results"></search-results>
 						</div>

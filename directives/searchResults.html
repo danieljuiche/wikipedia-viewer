@@ -1,5 +1,12 @@
-<a class="list-group-item" ng-href="{{ object.url }}">
-	<h2>{{ object.title }}</h2>
-	<p>{{ object.description }}</p>
+<div class="row">
+<a class="list-group-item" ng-href="{{ object.pageUrl }}">
+	<div class="left-container">
+		<img class="img-thumbnail" ng-src="{{ object.imageUrl }}" alt="Description" />
+	</div>
+	<div class="right-container">
+		<h2>{{ object.title }}</h2>
+		<p>{{ object.textExtract }}</p>
+	</div>
 </a>
+</div>
 </br>

@@ -52,3 +52,8 @@ html {
 .searchoffset {
   margin-top: 50px;
 }
+
+.img-thumbnail {
+  max-width: 200px;
+  max-height: 200px;
+}
