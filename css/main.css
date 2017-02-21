@@ -54,6 +54,10 @@ html {
 }
 
 .img-thumbnail {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.img-container {
+  margin-bottom: 10px;
 }

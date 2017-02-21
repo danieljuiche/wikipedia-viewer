@@ -26,7 +26,7 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 					"exlimit": "max",
 					"exintro": 1,
 					"explaintext": 1,
-					"piprop": "original",
+					"piprop": "original|thumbnail",
 					"pilimit": "max",
 					"inprop": "url",
 					"gsrsearch": queryValue,
@@ -76,8 +76,8 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 						"pageUrl": page.fullurl,
 					}
 
-					if (page.hasOwnProperty('original')) {
-						dataReturned.imageUrl = page.original.source;
+					if (page.hasOwnProperty('thumbnail')) {
+						dataReturned.imageUrl = page.thumbnail.source;
 					} else {
 						dataReturned.imageUrl = "http://www.freeiconspng.com/uploads/no-image-icon-23.jpg";
 					}
