@@ -68,6 +68,8 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	}
 
 	$scope.search = function () {
+		$scope.removeFocus();
+
 		wikipediaService.getData($scope.searchQuery, $scope.currentOffset).then(function (data) {
 			if (data.status === 200) {
 				// API call success
@@ -144,6 +146,10 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 		if ($scope.currentOffset === 0) {
 			$scope.prevButtonDisable = true;
 		}
+	}
+
+	$scope.removeFocus = function () {
+		document.getElementById("searchField").blur();
 	}
 
 }]);

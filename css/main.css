@@ -1,9 +1,13 @@
 html { 
-  background: url(../images/bookshelf-background.jpg) no-repeat center center fixed; 
+  background: url(../images/bookshelf-background.jpg) no-repeat center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+body {
+	background-color: transparent;
 }
 
 .outer-container {
