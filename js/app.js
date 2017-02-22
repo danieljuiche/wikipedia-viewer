@@ -57,10 +57,18 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.results = [];
 	$scope.numberOfResults = 0;
 	$scope.searchQueryResults = '';
-	var currentOffset = 0;
+	$scope.currentOffset = 0;
+	$scope.prevButtonDisable = true;
+	$scope.nextButtonDisable = false;
+
+	$scope.newSearch = function () {
+		$scope.currentOffset = 0;
+		$scope.prevButtonDisable = true;
+		$scope.search();
+	}
 
 	$scope.search = function () {
-		wikipediaService.getData($scope.searchQuery, currentOffset).then(function (data) {
+		wikipediaService.getData($scope.searchQuery, $scope.currentOffset).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				console.log("API call success!");
@@ -70,6 +78,11 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 				if (data.data.hasOwnProperty('query')) {
 					$scope.dataReturned = data.data.query.pages;
 					$scope.numberOfResults = $scope.dataReturned.length;
+
+					$scope.nextButtonDisable = false;
+					if ($scope.numberOfResults < 10 ) {
+						$scope.nextButtonDisable = true;
+					}
 
 					// Reset results container
 					$scope.results = $scope.dataReturned.map(function (page) {
@@ -90,6 +103,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 				} else {
 
+					$scope.nextButtonDisable = true;
 					$scope.numberOfResults = 0;
 					$scope.results = 0;
 
@@ -119,13 +133,17 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	}
 
 	$scope.increaseOffset = function () {
-		currentOffset += 10;
+		$scope.currentOffset += 10;
 		$scope.search();
+		$scope.prevButtonDisable = false;
 	}
 
 	$scope.decreaseOffset = function () {
-		currentOffset -= 10;
+		$scope.currentOffset -= 10;
 		$scope.search();
+		if ($scope.currentOffset === 0) {
+			$scope.prevButtonDisable = true;
+		}
 	}
 
 }]);
