@@ -3,6 +3,9 @@
 A single page application that allows the user to search for Wikipedia articles. Search results display article titles, image thumbnails, and descriptions.
 Users may also click on individual entries to visit the Wikipedia article directly.
 
+## Live Demo
+[Click Here for a live demo](http://danieljuiche.com/proj/wikipedia-viewer/index.html "Wikipedia Viewer")
+
 ## Technologies Used
 HTML, CSS, Javascript, Bootstrap, AngularJS
 
