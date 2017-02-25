@@ -10,11 +10,13 @@ wikipediaApp.config(function ($sceDelegateProvider) {
 
 // Service
 wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
+	// Define Wikipedia API url
 	var queryUrl = 'http://en.wikipedia.org/w/api.php?';
 
 	return {
 		getData: function (queryValue, queryOffsetValue) {
 			return $http.jsonp(queryUrl, {
+				// Settings for JSONP request
 				params: {
 					"action": "query",
 					"format": "json",
@@ -35,6 +37,8 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 					"gsroffset": queryOffsetValue
 				}
 			}).then(function (response) {
+
+				// Returns response
 				if (typeof response === 'object') {
 					return response;
 				}
@@ -52,24 +56,32 @@ wikipediaApp.service('wikipediaService', ['$http', '$q', function ($http, $q) {
 
 // Set up main controller
 wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', function ($scope, wikipediaService) {
-	$scope.initialFlag = false;
+
+	// Declare initial variables
 	$scope.searchQuery = '';
 	$scope.results = [];
 	$scope.numberOfResults = 0;
 	$scope.searchQueryResults = '';
 	$scope.currentOffset = 0;
-	$scope.prevButtonDisable = true;
-	$scope.nextButtonDisable = false;
 
+	// Declare initial flag variables
+	$scope.initialFlag = false;
+	$scope.prevButtonDisableFlag = true;
+	$scope.nextButtonDisableFlag = false;
+
+	// Function for a new search
 	$scope.newSearch = function () {
 		$scope.currentOffset = 0;
-		$scope.prevButtonDisable = true;
+		$scope.prevButtonDisableFlag = true;
 		$scope.search();
 	}
 
+	// Search function
 	$scope.search = function () {
+		// Removes focus from input search box
 		$scope.removeFocus();
 
+		// Call Wikipedia service
 		wikipediaService.getData($scope.searchQuery, $scope.currentOffset).then(function (data) {
 			if (data.status === 200) {
 				// API call success
@@ -81,19 +93,22 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 					$scope.dataReturned = data.data.query.pages;
 					$scope.numberOfResults = $scope.dataReturned.length;
 
-					$scope.nextButtonDisable = false;
+					// Conditional statement to disable next button
+					$scope.nextButtonDisableFlag = false;
 					if ($scope.numberOfResults < 10 ) {
-						$scope.nextButtonDisable = true;
+						$scope.nextButtonDisableFlag = true;
 					}
 
 					// Reset results container
 					$scope.results = $scope.dataReturned.map(function (page) {
+						// Store relevant data in object
 						var dataReturned = {
 							"title": page.title,
 							"textExtract": page.extract,
 							"pageUrl": page.fullurl,
 						}
 
+						// Store thumbnail image data
 						if (page.hasOwnProperty('thumbnail')) {
 							dataReturned.imageUrl = page.thumbnail.source;
 						} else {
@@ -105,7 +120,8 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 				} else {
 
-					$scope.nextButtonDisable = true;
+					// No results found
+					$scope.nextButtonDisableFlag = true;
 					$scope.numberOfResults = 0;
 					$scope.results = 0;
 
@@ -118,6 +134,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 			} else {
 
+				// Error calling API
 				$scope.dataReturned = "Something went wrong!";
 
 			}
@@ -130,24 +147,28 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 		});
 	}
 
+	// Function to clear search value
 	$scope.inputClear = function () {
 		$scope.searchQuery = '';
 	}
 
+	// Function for increase search offset values
 	$scope.increaseOffset = function () {
 		$scope.currentOffset += 10;
 		$scope.search();
-		$scope.prevButtonDisable = false;
+		$scope.prevButtonDisableFlag = false;
 	}
 
+	// Function for decreasing search offset values
 	$scope.decreaseOffset = function () {
 		$scope.currentOffset -= 10;
 		$scope.search();
 		if ($scope.currentOffset === 0) {
-			$scope.prevButtonDisable = true;
+			$scope.prevButtonDisableFlag = true;
 		}
 	}
 
+	// Function to remove focus from input search field
 	$scope.removeFocus = function () {
 		document.getElementById("searchField").blur();
 	}
