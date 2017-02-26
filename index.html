@@ -38,7 +38,7 @@
 						<div class="result-control-panel" ng-show="initialFlag">
 							<a href="#" class="btn btn-default prev" ng-click="decreaseOffset()" ng-class="{ disabled: prevButtonDisableFlag }">Prev</a>
 							<a href="#" class="btn btn-default next" ng-click="increaseOffset()" ng-class="{ disabled: nextButtonDisableFlag }">Next</a>
-							<p class="text-center result-counter">Now displaying {{ numberOfResults }} results for {{ searchQueryResults }}.</p>
+							<p class="text-center result-counter">{{ resultMessage }} <strong>{{ searchQueryResults }}</strong>.</p>
 						</div>
 						<div class="list-group">
 							<search-results ng-repeat="object in results"></search-results>

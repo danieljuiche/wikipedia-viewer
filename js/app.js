@@ -69,6 +69,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	$scope.initialFlag = false;
 	$scope.prevButtonDisableFlag = true;
 	$scope.nextButtonDisableFlag = false;
+	$scope.resultMessage = 'Now displaying ' + $scope.numberOfResults + ' results for ' + $scope.searchQueryResults + '.';
 
 	// Function for a new search
 	$scope.newSearch = function () {
@@ -125,13 +126,20 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 						return dataReturned
 					});
 
+					// Update result message
+					if ($scope.numberOfResults === 1) {
+						$scope.resultMessage = 'Now displaying ' + $scope.numberOfResults + ' result for ';
+					} else {
+						$scope.resultMessage = 'Now displaying ' + $scope.numberOfResults + ' results for ';
+					}
+
 				} else {
 
 					// No results found
 					$scope.nextButtonDisableFlag = true;
 					$scope.numberOfResults = 0;
 					$scope.results = 0;
-
+					$scope.resultMessage = 'No results found for '
 				}
 
 				// Set initialFlag to false
