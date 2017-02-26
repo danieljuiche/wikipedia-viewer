@@ -31,13 +31,13 @@
 								<input type="text" placeholder="Search.." id="searchField" class="form-control" ng-model="searchQuery">
 							</div>
 							<div class="row text-center button-container">
-								<button type="submit" class="btn btn-primary" ng-click="newSearch()">Search &nbsp;<span class="fa fa-search"></span></button>
+								<button type="submit" class="btn btn-primary" ng-click="newSearch($scope.lastSearchQuery)">Search &nbsp;<span class="fa fa-search"></span></button>
 								<a class="btn btn-default" href="https://en.wikipedia.org/wiki/Special:Random">Random &nbsp;<span class="fa fa-random"></span></a>
 							</div>
 						</form>
 						<div class="result-control-panel" ng-show="initialFlag">
-							<a href="#" class="btn btn-default prev" ng-click="decreaseOffset()" ng-class="{ disabled: prevButtonDisable }">Prev</a>
-							<a href="#" class="btn btn-default next" ng-click="increaseOffset()" ng-class="{ disabled: nextButtonDisable }">Next</a>
+							<a href="#" class="btn btn-default prev" ng-click="decreaseOffset()" ng-class="{ disabled: prevButtonDisableFlag }">Prev</a>
+							<a href="#" class="btn btn-default next" ng-click="increaseOffset()" ng-class="{ disabled: nextButtonDisableFlag }">Next</a>
 							<p class="text-center result-counter">Now displaying {{ numberOfResults }} results for {{ searchQueryResults }}.</p>
 						</div>
 						<div class="list-group">

@@ -59,6 +59,7 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 	// Declare initial variables
 	$scope.searchQuery = '';
+	$scope.lastSearchQuery = '';
 	$scope.results = [];
 	$scope.numberOfResults = 0;
 	$scope.searchQueryResults = '';
@@ -71,18 +72,24 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 	// Function for a new search
 	$scope.newSearch = function () {
+		// Sets previous search query
+		$scope.lastSearchQuery = $scope.searchQuery;
 		$scope.currentOffset = 0;
 		$scope.prevButtonDisableFlag = true;
-		$scope.search();
+		$scope.search($scope.searchQuery);
 	}
 
 	// Search function
-	$scope.search = function () {
+	$scope.search = function (searchTerm) {
+
+		// Repopulate search box
+		$scope.searchQuery = searchTerm;
+
 		// Removes focus from input search box
 		$scope.removeFocus();
 
 		// Call Wikipedia service
-		wikipediaService.getData($scope.searchQuery, $scope.currentOffset).then(function (data) {
+		wikipediaService.getData(searchTerm, $scope.currentOffset).then(function (data) {
 			if (data.status === 200) {
 				// API call success
 				console.log("API call success!");
@@ -155,14 +162,14 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 	// Function for increase search offset values
 	$scope.increaseOffset = function () {
 		$scope.currentOffset += 10;
-		$scope.search();
+		$scope.search($scope.lastSearchQuery);
 		$scope.prevButtonDisableFlag = false;
 	}
 
 	// Function for decreasing search offset values
 	$scope.decreaseOffset = function () {
 		$scope.currentOffset -= 10;
-		$scope.search();
+		$scope.search($scope.lastSearchQuery);
 		if ($scope.currentOffset === 0) {
 			$scope.prevButtonDisableFlag = true;
 		}
