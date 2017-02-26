@@ -19,12 +19,14 @@
 <body>
 	<div class="background-overlay">
 	</div>
-	<div class="container outer-container ng-cloak">
+	<div class="container outer-container ng-cloak" ng-controller="mainController">
 		<div class="row middle-container">
 			<div class="col-md-6 col-md-push-3">
-				<div ng-controller="mainController">
+					<div class="alert alert-danger text-center" id="errorMessage" ng-show="errorMessage.length > 1">
+						{{ errorMessage }}
+					</div>
 					<div class="inner-container">
-						<h1 class="text-center main-header" ng-class="{ searchoffset: initialFlag }">Wikipedia Viewer</h1>
+						<h1 class="text-center main-header" ng-class="{ searchoffset: initialFlag && !errorFlag }">Wikipedia Viewer</h1>
 						<form>
 							<div class="form-group search-container">
 								<span class="fa fa-times" ng-click="inputClear()"></span>
@@ -44,7 +46,7 @@
 							<search-results ng-repeat="object in results"></search-results>
 						</div>
 					</div>
-				</div>
+			
 			</div>
 		</div>
 	</div>

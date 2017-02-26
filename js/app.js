@@ -67,9 +67,11 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 
 	// Declare initial flag variables
 	$scope.initialFlag = false;
+	$scope.errorFlag = false;
 	$scope.prevButtonDisableFlag = true;
 	$scope.nextButtonDisableFlag = false;
 	$scope.resultMessage = 'Now displaying ' + $scope.numberOfResults + ' results for ' + $scope.searchQueryResults + '.';
+	$scope.errorMessage = '';
 
 	// Function for a new search
 	$scope.newSearch = function () {
@@ -77,12 +79,17 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 		$scope.lastSearchQuery = $scope.searchQuery;
 		$scope.currentOffset = 0;
 		$scope.prevButtonDisableFlag = true;
-		$scope.search($scope.searchQuery);
+		if ($scope.searchQuery === '') {
+			$scope.nextButtonDisableFlag = true;
+			$scope.errorFlag = true;
+			$scope.errorMessage = 'Please enter a search term!';
+		} else {
+			$scope.search($scope.searchQuery);
+		}
 	}
 
 	// Search function
 	$scope.search = function (searchTerm) {
-
 		// Repopulate search box
 		$scope.searchQuery = searchTerm;
 
@@ -123,8 +130,12 @@ wikipediaApp.controller('mainController', ['$scope', 'wikipediaService', functio
 							dataReturned.imageUrl = "http://www.freeiconspng.com/uploads/no-image-icon-23.jpg";
 						}
 
-						return dataReturned
+						return dataReturned;
 					});
+
+					// Remove error messages
+					$scope.errorFlag = false;
+					$scope.errorMessage = '';
 
 					// Update result message
 					if ($scope.numberOfResults === 1) {
